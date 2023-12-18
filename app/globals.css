@@ -4,24 +4,34 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+
   }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: #172554;
+  background-color: #eff6ff;
 }
+
+h1 {
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+
+h3 {
+  font-size: large;
+  font-weight: bold;
+}
+
