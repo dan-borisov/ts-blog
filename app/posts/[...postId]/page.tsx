@@ -13,15 +13,25 @@ interface Post {
   fields: any;
 }
 
-const fetchPost = async () => {
-  const post: Post = await client.getEntry('3ggxNpp7Dh8vvQzd9D2mqo')
-  
-  return post;
+const fetchPost = async (id: string) => {
+
+  try {
+
+    const post: Post = await client.getEntry(id)
+    return post
+
+  } catch (error) {
+    console.error('Error fetching posts from Contentful:', error)
+    return []
+  }
+
 };
 
 
 export default async function SinglePost({ params }: { params: { postId: string[] } }) {
-  const post = await fetchPost();
+  const post = await fetchPost(params.postId[0])
+
+  console.log(params)
   
   const images = {
     renderNode: {
