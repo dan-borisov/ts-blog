@@ -1,7 +1,8 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Raleway } from 'next/font/google'
-import {config} from 'dotenv';
+import Header from './components/Header'
+import {config} from 'dotenv'
 config();
 
 const raleway = Raleway({ subsets: ['latin'], weight: ['400', '700'], })
@@ -18,7 +19,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={raleway.className}>{children}</body>
+      <body className={raleway.className}>
+        <Header />
+        {children}
+      </body>
     </html>
   )
 }
