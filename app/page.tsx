@@ -2,6 +2,7 @@ import { createClient } from 'contentful'
 import Link from 'next/link'
 import hero from './hero-image.jpg'
 import { documentToPlainTextString } from '@contentful/rich-text-plain-text-renderer';
+import NavMenu from './components/NavMenu';
 
 
 const client = createClient({
@@ -56,7 +57,7 @@ export default async function Home() {
       <div className="hero" style={{backgroundImage: `url(${hero.src})`, minHeight: '60vh'}}>
         <div className="hero-overlay bg-opacity-60"></div>
       </div>
-      <div className=" mx-auto max-w-5xl px-6" style={{ marginTop: '-28rem'}}>  
+      <div className="mx-auto max-w-5xl px-6" style={{ marginTop: '-28rem'}}>  
         <div className="hero-content text-center text-neutral-content h-72">
           <div className="max-w-md">
             <Link href='/'>
@@ -65,16 +66,7 @@ export default async function Home() {
             <p className="mb-5">News and Guides for All your tech needs</p>
           </div>
         </div>
-        <div className='overflow-x-scroll flex py-2 text-neutral-content'>
-          
-            <Link href='/' className='pr-4 font-bold hover:text-base-100'>HOME</Link>
-            <Link href='/' className='pr-4 font-bold hover:text-base-100'>GUIDES</Link>
-            <Link href='/' className='pr-4 font-bold hover:text-base-100'>HISTORY</Link>
-            <Link href='/' className='pr-4 font-bold hover:text-base-100'>LONGREADS</Link>
-            <Link href='/' className='pl-4 font-bold hover:text-base-100'>ABOUT</Link>
-            <Link href='/' className='pl-4 font-bold hover:text-base-100'>CONTACT</Link>
-          
-        </div> 
+        <NavMenu />
         <div className="mx-auto max-w-5xl mb-6">
           {posts.items.map((post) => (
           <div className="grid grid-cols-1 sm:grid-cols-2 shadow-md mb-8 p-0">
@@ -89,16 +81,16 @@ export default async function Home() {
                   <span className='bg-secondary rounded p-1 mr-3'>{capitalizeTags(tag.sys.id)}</span>
                 ))}
               </div>
-              <Link href='/'>
-                <h2 className="text-xl font-semibold my-2">{post.fields.title}</h2>
+              <Link href={`/posts/${post.sys.id}/${slugify(post.fields.title)}`}>
+                <h2 className="text-2xl font-bold my-2">{post.fields.title}</h2>
                 <p className="text-gray-600">{post.fields.excerpt}</p>        
               </Link>        
               <div className="grid grid-cols-2 justify-between">
                 <div className="avatar pt-3">
                   <div className="w-12 rounded-full">
-                      <img src={post.fields.author.fields.avatar.fields.file.url} />
-                    </div>
+                    <img src={post.fields.author.fields.avatar.fields.file.url} />
                   </div>
+                </div>
                   <div className='grid content-center justify-end'>
                     <p className='pt-5'>{timeToRead(post.fields.mainBody)} MIN READ</p>
                   </div>
