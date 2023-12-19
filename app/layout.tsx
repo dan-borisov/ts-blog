@@ -1,7 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Raleway } from 'next/font/google'
-import Header from './components/Header'
+import Footer from './components/Footer'
 import {config} from 'dotenv'
 config();
 
@@ -18,10 +18,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="lemonade">
       <body className={raleway.className}>
-        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   )
