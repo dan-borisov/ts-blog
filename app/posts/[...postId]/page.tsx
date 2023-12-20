@@ -1,8 +1,7 @@
 import { createClient } from 'contentful'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import Link from 'next/link'
-import hero from '../../hero-image.jpg'
-import NavMenu from '@/app/components/NavMenu';
+import NavMenu from '@/app/components/NavMenu'
+import Hero from '@/app/components/Hero'
 
 const client = createClient({
   space: process.env.CONTENTFUL_SPACE_ID,
@@ -31,8 +30,18 @@ const fetchPost = async (id: string) => {
 
 function capitalizeTags(input: string) {
   return input
-    .replace(/([A-Z])/g, ' $1') 
-    .replace(/^./, (str: string) => str.toUpperCase())
+  .replace(/([A-Z])/g, ' $1') 
+  .replace(/^./, (str: string) => str.toUpperCase())
+}
+
+const formatDate = (dateString: string) => {
+  const options = {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  }
+  const formattedDate = new Date(dateString).toLocaleDateString('en-GB', options)
+  return formattedDate;
 }
 
 export default async function SinglePost({ params }: { params: { postId: string[] } }) {
@@ -51,22 +60,12 @@ export default async function SinglePost({ params }: { params: { postId: string[
     },
   }
 
-  const formatDate = (dateString) => {
-    const options = {
-      weekday: 'short',
-      day: 'numeric',
-      month: 'short',
-    }
   
-    const formattedDate = new Date(dateString).toLocaleDateString('en-GB', options)
-    return formattedDate;
-  }
+
 
   return (
     <>
-      <div className="hero" style={{backgroundImage: `url(${hero.src})`, minHeight: '60vh'}}>
-        <div className="hero-overlay bg-opacity-60"></div>
-      </div>
+      <Hero />
       <div className="mx-auto max-w-5xl" style={{ marginTop: '-27rem'}}>
         <div className="hero-content text-center text-neutral-content h-72">
           <div className="">           
