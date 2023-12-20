@@ -1,11 +1,16 @@
 // Category Page
 import React from 'react'
 import { createClient } from 'contentful'
+import Hero from '@/app/components/Hero'
+import PostsListDisplay from '@/app/components/PostsListDisplay'
+import NavMenu from '@/app/components/NavMenu'
 
-const client = createClient({
-    space: process.env.CONTENTFUL_SPACE_ID,
-    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
-})
+const clientConfig = {
+    space: process.env.CONTENTFUL_SPACE_ID || '',
+    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || '',
+  }
+
+const client = createClient(clientConfig)
 
 interface Posts {
     metadata: any;
@@ -14,24 +19,48 @@ interface Posts {
     items: any;
 }
 
-const fetchPosts = async () => {
+
+interface CategoryProps {
+    params: {
+        category: string;
+    }
+}
+
+
+
+const fetchPosts = async (cat: string) => {
     try {
-        let endpoint = `https://cdn.contentful.com/spaces/${process.env.CONTENTFUL_SPACE_ID}/entries?content_type=post&metadata.tags.sys.id[in]=history&access_token=${process.env.CONTENTFUL_ACCESS_TOKEN}`
-        const res = await fetch(endpoint)
-        const data = await res.json()
-      
-        console.log(data)
+        const query = {
+            content_type: 'post',
+            'metadata.tags.sys.id[in]': cat,
+        }
+        const posts = await client.getEntries(query)
+        return posts
 
     } catch (error) {
         console.error('Error fetching data from Contentful', error)
     }
 }
 
-
-const Category = async () => {
-    const posts = await fetchPosts()
+const Category: React.FC<CategoryProps> = async ({ params }) => {
+    const posts = await fetchPosts(params.category)
+    
   return (
-    <div>History</div>
+    <>
+        <Hero />
+        <div className="mx-auto" style={{ marginTop: '-28rem'}}>  
+            <div className="hero-content text-center text-neutral-content h-72 mx-auto">
+                <div className="max-w-lg">
+                    
+                    <h1 className="mb-5 text-5xl font-bold hover:text-base-100">Category: {params.category}</h1>
+                    
+                </div>
+            </div>
+        </div>
+        <NavMenu />
+        <PostsListDisplay posts={posts}/>
+        <PostsListDisplay posts={posts}/>
+    </>
   )
 }
 

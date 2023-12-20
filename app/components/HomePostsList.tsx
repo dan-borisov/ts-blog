@@ -5,10 +5,12 @@ import PostsListDisplay from './PostsListDisplay'
 
 
 
-const client = createClient({
-    space: process.env.CONTENTFUL_SPACE_ID,
-    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
-  })
+const clientConfig = {
+  space: process.env.CONTENTFUL_SPACE_ID || '',
+  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || '',
+}
+
+const client = createClient(clientConfig)
   
   interface Posts {
     metadata: any;
@@ -22,7 +24,7 @@ const client = createClient({
     try {
   
       const posts: Posts = await client.getEntries({content_type: 'post'})
-      console.log(posts)
+      
       return posts
   
     } catch (error) {
